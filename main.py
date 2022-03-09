@@ -1,4 +1,4 @@
-from pytube import YouTube
+from pytube import YouTube, Playlist
 
 def video_info(yt):
     print("Title : ", yt.title)
@@ -25,29 +25,38 @@ def download_audio(yt):
     video.download()
     print("Audio is Downloading as",yt.title+".mp3")
 
+def download_playlist(p):
+    print(p.title)
+    for video in p.videos:
+        try:
+            video.streams.first().download(video.title)
+        except Exception as e:
+            print(e, type(e))
+    print("Playlist is Downloaded")
+
 def select():
     print("(1) Download Video")
     print("(2) Download Audio\n")
+    print("(3) Download Playlist")
 
-
-link = input("Enter Video Link --> ")
-yt = YouTube(link)
-
-video_info(yt)
 
 select()
 
 choice = int(input("Enter Number: "))
 
 if choice == 1:
+    link = input("Enter Video Link --> ")
+    yt = YouTube(link)
     download_video(yt)
 elif choice == 2:
+    link = input("Enter Video Link --> ")
+    yt = YouTube(link)
     download_audio(yt)
+elif choice == 3:
+    link = input("Enter Video Link --> ")
+    p = Playlist(link)
+    download_playlist(p)
 else:
     print("############ Invalid Number #############\n")
     select()
 
-
-# video_info(yt)
-# # download_video(yt)
-# download_audio(yt)
